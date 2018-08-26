@@ -19,7 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        let rootNavigationController = UINavigationController(rootViewController: ViewController())
+        let flowLayout = UICollectionViewFlowLayout()
+        let collectionViewController = ViewController(collectionViewLayout: flowLayout)
+        
+        let rootNavigationController = UINavigationController(rootViewController: collectionViewController)
         rootNavigationController.navigationBar.barStyle = .black
         window?.rootViewController = rootNavigationController
         
