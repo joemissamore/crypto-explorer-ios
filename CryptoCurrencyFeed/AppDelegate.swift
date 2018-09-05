@@ -19,13 +19,58 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
+        
+        
+        /// Instantiate View Controllers
         let flowLayout = UICollectionViewFlowLayout()
-        let collectionViewController = ViewController(collectionViewLayout: flowLayout)
+        let cryptoFeedController = ViewController(collectionViewLayout: flowLayout)
+        cryptoFeedController.title = "Crypto Live Feed"
         
-        let rootNavigationController = UINavigationController(rootViewController: collectionViewController)
-        rootNavigationController.navigationBar.barStyle = .black
-        window?.rootViewController = rootNavigationController
+        let exchangeController = ExchangeController()
+        exchangeController.title = "Exchanges"
+        /// ----------------
         
+        
+        /// TabBarControllers
+        let tabBarController = UITabBarController()
+        cryptoFeedController.tabBarItem = UITabBarItem(tabBarSystemItem: .bookmarks, tag: 0)
+        exchangeController.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 1)
+        /// ----------------
+        
+        /// Controllers
+        let controllers = [cryptoFeedController, exchangeController]
+        /// ----------------
+        
+        /// Map tabBarControllers views
+        tabBarController.viewControllers = controllers.map {
+            UINavigationController(rootViewController: $0)
+        }
+        /// ----------------
+        
+        /// Set initial view on the tabBarController
+        tabBarController.selectedIndex = 1
+        /// ----------------
+        
+        /// Set UIViewControllers navigation bar style
+        controllers.forEach {
+            $0.navigationController?.navigationBar.barStyle = .black
+        }
+        /// ----------------
+        
+        /// Set tabBarController bar style
+        tabBarController.tabBar.barStyle = .black
+        /// ----------------
+    
+        
+        
+//        let rootNavigationController = UINavigationController(rootViewController: cryptoFeedController)
+        
+//        DEFAULT
+        window?.rootViewController = tabBarController
+        
+        // DEVELOPMENT
+//        UserDefaults.standard.set([ExchangeAssetsUserDefault](), forKey: "selectedCurrency")
+//        window?.rootViewController = ExchangeAssetsController()
         return true
     }
 
